@@ -1,23 +1,21 @@
 const UserService = require('../services/userService');
 
-const createNewUser = async (req, res) => {
+exports.createNewUser = async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;
     await UserService.validateDisplayName(displayName);
     await UserService.validateEmail(email);
     await UserService.validatePassword(password);
-    const newUser = await UserService.createNewUser(
+    const token = await UserService.createNewUser(
       displayName,
       email,
       password,
       image,
     );
-    // TODO
-    res.json({ newUser });
+    return res.status(201).json({ token });
   } catch (error) {
-    // TODO
-    res.json({ error });
+    return res
+      .status(error.code || 500)
+      .json({ message: error.msg } || { error });
   }
 };
-
-module.exports = { createNewUser };
