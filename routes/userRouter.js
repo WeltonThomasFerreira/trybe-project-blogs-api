@@ -1,9 +1,8 @@
 const express = require('express');
+const UserController = require('../controllers/userController');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .post((req, res) => res.json({ message: 'Teste de rota, /user, POST' }));
+router.route('/').post(UserController.createNewUser);
 
 module.exports = router;
