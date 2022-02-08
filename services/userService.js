@@ -1,13 +1,13 @@
 const Joi = require('joi');
 const {
-  DISPLAY_NAME_INVALID,
+  DISPLAY_NAME_IS_INVALID,
   EMAIL_IS_REQUIRED,
   EMAIL_IS_INVALID,
 } = require('./errors');
 
 exports.validateDisplayName = async (displayName) => {
   try {
-    const schema = Joi.string().required().min(8).error(DISPLAY_NAME_INVALID);
+    const schema = Joi.string().required().min(8).error(DISPLAY_NAME_IS_INVALID);
     await schema.validateAsync(displayName);
   } catch (error) {
     console.error(error);

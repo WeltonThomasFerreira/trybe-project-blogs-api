@@ -1,4 +1,4 @@
-exports.DISPLAY_NAME_INVALID = () => {
+exports.DISPLAY_NAME_IS_INVALID = () => {
   const error = new Error();
   error.code = 400;
   error.msg = '"displayName" length must be at least 8 characters long';
