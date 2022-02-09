@@ -39,3 +39,24 @@ exports.USER_ALREADY_REGISTERED = () => {
   error.msg = 'User already registered';
   return error;
 };
+
+exports.EMAIL_IS_EMPTY = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"email" is not allowed to be empty';
+  return error;
+};
+
+exports.PASSWORD_IS_EMPTY = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"password" is not allowed to be empty';
+  return error;
+};
+
+exports.INVALID_FIELDS = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = 'Invalid fields';
+  return error;
+};
