@@ -38,9 +38,8 @@ exports.validatePassword = async (password) => {
 
 exports.login = async (email, password) => {
   try {
-    if (!(await User.findOne({ where: { email, password } }))) {
-      throw INVALID_FIELDS();
-    }
+    const user = await User.findOne({ where: { email, password } });
+    if (!user) throw INVALID_FIELDS();
     return jwt.sign({ data: { email, password } }, process.env.JWT_SECRET);
   } catch (error) {
     console.error(error);
