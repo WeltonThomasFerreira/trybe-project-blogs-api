@@ -29,7 +29,7 @@ exports.PASSWORD_IS_REQUIRED = () => {
 exports.PASSWORD_IS_INVALID = () => {
   const error = new Error();
   error.code = 400;
-  error.msg = '"password" length must be at least 6 characters long';
+  error.msg = '"password" length must be 6 characters long';
   return error;
 };
 
