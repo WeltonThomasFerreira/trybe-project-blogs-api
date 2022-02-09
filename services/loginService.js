@@ -14,7 +14,7 @@ exports.validateEmail = async (email) => {
   try {
     const schema = Joi.object({
       isRequired: Joi.string().required().allow('').error(EMAIL_IS_REQUIRED),
-      isEmpty: Joi.string().error(EMAIL_IS_EMPTY),
+      isEmpty: Joi.string().empty().error(EMAIL_IS_EMPTY),
     });
     await schema.validateAsync({ isRequired: email, isEmpty: email });
   } catch (error) {
@@ -27,7 +27,7 @@ exports.validatePassword = async (password) => {
   try {
     const schema = Joi.object({
       isRequired: Joi.string().required().allow('').error(PASSWORD_IS_REQUIRED),
-      isEmpty: Joi.string().error(PASSWORD_IS_EMPTY),
+      isEmpty: Joi.string().empty().error(PASSWORD_IS_EMPTY),
     });
     await schema.validateAsync({ isRequired: password, isEmpty: password });
   } catch (error) {
