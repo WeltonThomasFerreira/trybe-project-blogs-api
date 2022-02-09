@@ -1,4 +1,6 @@
+require('dotenv').config();
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const {
   DISPLAY_NAME_IS_INVALID,
@@ -51,7 +53,7 @@ exports.validatePassword = async (password) => {
 exports.createNewUser = async (displayName, email, password, image) => {
   try {
     const user = await User.create({ displayName, email, password, image });
-    return user.toJSON();
+    return jwt.sign({ data: user }, process.env.JWT_SECRET);
   } catch (error) {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
