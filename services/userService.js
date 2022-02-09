@@ -53,7 +53,9 @@ exports.createNewUser = async (displayName, email, password, image) => {
     const user = await User.create({ displayName, email, password, image });
     return user.toJSON();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    const ER_DUP_ENTRY = 1062;
+    if (error.parent.errno === ER_DUP_ENTRY) throw USER_ALREADY_REGISTERED();
     throw error;
   }
 };
