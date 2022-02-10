@@ -2,10 +2,13 @@ const express = require('express');
 const {
   validateNewUser,
   createNewUser,
-  validateAuthorization,
   getAllUsers,
   getUserById,
 } = require('../controllers/userController');
+
+const {
+  validateAuthorization,
+} = require('../middlewares/validateAuthorization');
 
 const router = express.Router();
 

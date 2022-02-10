@@ -61,20 +61,6 @@ exports.INVALID_FIELDS = () => {
   return error;
 };
 
-exports.TOKEN_NOT_FOUND = () => {
-  const error = new Error();
-  error.code = 401;
-  error.msg = 'Token not found';
-  return error;
-};
-
-exports.INVALID_TOKEN = () => {
-  const error = new Error();
-  error.code = 401;
-  error.msg = 'Expired or invalid token';
-  return error;
-};
-
 exports.USER_DOES_NOT_EXIST = () => {
   const error = new Error();
   error.code = 404;

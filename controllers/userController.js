@@ -35,19 +35,6 @@ exports.createNewUser = async (req, res) => {
   }
 };
 
-exports.validateAuthorization = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    await UserService.validateAuthorization(authorization);
-    next();
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(error.code || 500)
-      .json({ message: error.msg || SERVER_ERROR });
-  }
-};
-
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await UserService.getAllUsers();

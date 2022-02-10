@@ -9,8 +9,6 @@ const {
   PASSWORD_IS_REQUIRED,
   PASSWORD_IS_INVALID,
   USER_ALREADY_REGISTERED,
-  TOKEN_NOT_FOUND,
-  INVALID_TOKEN,
   USER_DOES_NOT_EXIST,
 } = require('./errors');
 
@@ -61,19 +59,6 @@ exports.createNewUser = async (displayName, email, password, image) => {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
     if (error.parent.errno === ER_DUP_ENTRY) throw USER_ALREADY_REGISTERED();
-    throw error;
-  }
-};
-
-exports.validateAuthorization = async (authorization) => {
-  try {
-    const schema = Joi.string().required().error(TOKEN_NOT_FOUND);
-    await schema.validateAsync(authorization);
-    jwt.verify(authorization, process.env.JWT_SECRET);
-  } catch (error) {
-    console.error(error);
-    const invalidToken = /^(TokenExpiredError|JsonWebTokenError)$/;
-    if (invalidToken.test(error.name)) throw INVALID_TOKEN();
     throw error;
   }
 };
