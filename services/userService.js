@@ -65,7 +65,6 @@ exports.createNewUser = async (displayName, email, password, image) => {
 };
 
 exports.validateAuthorization = async (authorization) => {
-  console.log(authorization);
   try {
     const schema = Joi.string().required().error(TOKEN_NOT_FOUND);
     await schema.validateAsync(authorization);
