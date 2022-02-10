@@ -27,3 +27,15 @@ exports.createNewCategory = async (req, res) => {
       .json({ message: error.msg || SERVER_ERROR });
   }
 };
+
+exports.getAllCategories = async (req, res) => {
+  try {
+    const categories = await CategoriesService.getAllCategories();
+    return res.status(200).json(categories);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(error.code || 500)
+      .json({ message: error.msg || SERVER_ERROR });
+  }
+};

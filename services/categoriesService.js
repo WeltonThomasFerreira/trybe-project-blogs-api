@@ -21,7 +21,18 @@ exports.createNewCategory = async (name) => {
   } catch (error) {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
-    if (error.parent.errno === ER_DUP_ENTRY) { throw CATEGORY_ALREADY_REGISTERED(); }
+    if (error.parent.errno === ER_DUP_ENTRY) {
+      throw CATEGORY_ALREADY_REGISTERED();
+    }
+    throw error;
+  }
+};
+
+exports.getAllCategories = async () => {
+  try {
+    return Category.findAll({ order: ['id'] });
+  } catch (error) {
+    console.error(error);
     throw error;
   }
 };
