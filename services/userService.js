@@ -79,7 +79,7 @@ exports.createNewUser = async (displayName, email, password, image) => {
 
 exports.getAllUsers = async () => {
   try {
-    return User.findAll();
+    return User.findAll({ order: ['id'] });
   } catch (error) {
     console.error(error);
     throw error;
