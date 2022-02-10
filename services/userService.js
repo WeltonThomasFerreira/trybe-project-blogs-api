@@ -68,14 +68,13 @@ exports.validateAuthorization = async (authorization) => {
   try {
     const schema = Joi.string().required().error(TOKEN_NOT_FOUND);
     await schema.validateAsync(authorization);
-    const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
-    const user = await User.findOne({
-      where: { email: decoded.data.email, password: decoded.data.password },
-    });
-    if (!user) throw INVALID_TOKEN();
+    jwt.verify(authorization, process.env.JWT_SECRET);
   } catch (error) {
     console.error(error);
-    if (error.message === 'jwt malformed') throw INVALID_TOKEN();
+    if (
+      error.name === 'TokenExpiredError'
+      || error.name === 'JsonWebTokenError'
+    ) { throw INVALID_TOKEN(); }
     throw error;
   }
 };
