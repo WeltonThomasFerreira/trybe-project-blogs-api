@@ -71,10 +71,9 @@ exports.validateAuthorization = async (authorization) => {
     jwt.verify(authorization, process.env.JWT_SECRET);
   } catch (error) {
     console.error(error);
-    if (
-      error.name === 'TokenExpiredError'
-      || error.name === 'JsonWebTokenError'
-    ) { throw INVALID_TOKEN(); }
+    if (error.name === /^(TokenExpiredError|JsonWebTokenError)$/) {
+      throw INVALID_TOKEN();
+    }
     throw error;
   }
 };
