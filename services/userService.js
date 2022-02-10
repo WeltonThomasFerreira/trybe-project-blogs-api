@@ -9,6 +9,8 @@ const {
   PASSWORD_IS_REQUIRED,
   PASSWORD_IS_INVALID,
   USER_ALREADY_REGISTERED,
+  TOKEN_NOT_FOUND,
+  INVALID_TOKEN,
 } = require('./errors');
 
 exports.validateDisplayName = async (displayName) => {
@@ -58,6 +60,32 @@ exports.createNewUser = async (displayName, email, password, image) => {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
     if (error.parent.errno === ER_DUP_ENTRY) throw USER_ALREADY_REGISTERED();
+    throw error;
+  }
+};
+
+exports.validateAuthorization = async (authorization) => {
+  console.log(authorization);
+  try {
+    const schema = Joi.string().required().error(TOKEN_NOT_FOUND);
+    await schema.validateAsync(authorization);
+    const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+    const user = await User.findOne({
+      where: { email: decoded.data.email, password: decoded.data.password },
+    });
+    if (!user) throw INVALID_TOKEN();
+  } catch (error) {
+    console.error(error);
+    if (error.message === 'jwt malformed') throw INVALID_TOKEN();
+    throw error;
+  }
+};
+
+exports.getAllUsers = async () => {
+  try {
+    return User.findAll();
+  } catch (error) {
+    console.error(error);
     throw error;
   }
 };
