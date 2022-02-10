@@ -74,3 +74,10 @@ exports.INVALID_TOKEN = () => {
   error.msg = 'Expired or invalid token';
   return error;
 };
+
+exports.USER_DOES_NOT_EXIST = () => {
+  const error = new Error();
+  error.code = 404;
+  error.msg = 'User does not exist';
+  return error;
+};

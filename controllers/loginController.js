@@ -1,5 +1,7 @@
 const LoginService = require('../services/loginService');
 
+const SERVER_ERROR = 'Internal Server Error';
+
 exports.validateLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -10,7 +12,7 @@ exports.validateLogin = async (req, res, next) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };
 
@@ -23,6 +25,6 @@ exports.login = async (req, res) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };

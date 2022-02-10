@@ -11,6 +11,7 @@ const {
   USER_ALREADY_REGISTERED,
   TOKEN_NOT_FOUND,
   INVALID_TOKEN,
+  USER_DOES_NOT_EXIST,
 } = require('./errors');
 
 exports.validateDisplayName = async (displayName) => {
@@ -80,6 +81,17 @@ exports.validateAuthorization = async (authorization) => {
 exports.getAllUsers = async () => {
   try {
     return User.findAll();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+exports.getUserById = async (id) => {
+  try {
+    const user = await User.findByPk(id);
+    if (!user) throw USER_DOES_NOT_EXIST();
+    return user;
   } catch (error) {
     console.error(error);
     throw error;

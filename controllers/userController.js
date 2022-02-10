@@ -1,5 +1,7 @@
 const UserService = require('../services/userService');
 
+const SERVER_ERROR = 'Internal Server Error';
+
 exports.validateNewUser = async (req, res, next) => {
   try {
     const { displayName, email, password } = req.body;
@@ -11,7 +13,7 @@ exports.validateNewUser = async (req, res, next) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };
 
@@ -29,7 +31,7 @@ exports.createNewUser = async (req, res) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };
 
@@ -42,7 +44,7 @@ exports.validateAuthorization = async (req, res, next) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };
 
@@ -54,6 +56,19 @@ exports.getAllUsers = async (req, res) => {
     console.error(error);
     return res
       .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
+      .json({ message: error.msg || SERVER_ERROR });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await UserService.getUserById(id);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(error.code || 500)
+      .json({ message: error.msg || SERVER_ERROR });
   }
 };
