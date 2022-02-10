@@ -74,3 +74,10 @@ exports.NAME_IS_REQUIRED = () => {
   error.msg = '"name" is required';
   return error;
 };
+
+exports.CATEGORY_ALREADY_REGISTERED = () => {
+  const error = new Error();
+  error.code = 409;
+  error.msg = 'Category already registered';
+  return error;
+};

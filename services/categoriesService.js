@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { Category } = require('../models');
-const { NAME_IS_REQUIRED } = require('./errors');
+const { NAME_IS_REQUIRED, CATEGORY_ALREADY_REGISTERED } = require('./errors');
 
 exports.validateCategory = async (name) => {
   try {
@@ -20,6 +20,8 @@ exports.createNewCategory = async (name) => {
     return category;
   } catch (error) {
     console.error(error);
+    const ER_DUP_ENTRY = 1062;
+    if (error.parent.errno === ER_DUP_ENTRY) { throw CATEGORY_ALREADY_REGISTERED(); }
     throw error;
   }
 };
