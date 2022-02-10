@@ -51,9 +51,23 @@ exports.validatePassword = async (password) => {
   }
 };
 
+const createDataUser = (response) => {
+  try {
+    const {
+      dataValues: { email, password },
+      dataValues,
+    } = response;
+    return { id: dataValues.null, email, password };
+  } catch (error) {
+    console.error(error);
+    throw new Error('Unable to map response from database');
+  }
+};
+
 exports.createNewUser = async (displayName, email, password, image) => {
   try {
-    const user = await User.create({ displayName, email, password, image });
+    const response = await User.create({ displayName, email, password, image });
+    const user = createDataUser(response);
     return jwt.sign({ data: user }, process.env.JWT_SECRET);
   } catch (error) {
     console.error(error);

@@ -67,3 +67,10 @@ exports.USER_DOES_NOT_EXIST = () => {
   error.msg = 'User does not exist';
   return error;
 };
+
+exports.NAME_IS_REQUIRED = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"name" is required';
+  return error;
+};

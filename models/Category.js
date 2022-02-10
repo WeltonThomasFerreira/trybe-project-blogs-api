@@ -5,6 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     name: DataTypes.STRING,
-  });
+  }, { timestamps: false });
   return Category;
 };
