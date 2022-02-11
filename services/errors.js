@@ -81,3 +81,31 @@ exports.CATEGORY_ALREADY_REGISTERED = () => {
   error.msg = 'Category already registered';
   return error;
 };
+
+exports.TITLE_IS_REQUIRED = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"title" is required';
+  return error;
+};
+
+exports.CONTENT_IS_REQUIRED = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"content" is required';
+  return error;
+};
+
+exports.CATEGORYID_IS_REQUIRED = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"categoryId" is required';
+  return error;
+};
+
+exports.CATEGORYID_NOT_FOUND = () => {
+  const error = new Error();
+  error.code = 400;
+  error.msg = '"categoryId" not found';
+  return error;
+};
