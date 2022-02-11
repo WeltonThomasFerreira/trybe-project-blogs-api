@@ -2,9 +2,13 @@ const PostService = require('../services/postService');
 
 const SERVER_ERROR = 'Internal Server Error';
 
-exports.validatePost = async (req, res) => {
+exports.validatePost = async (req, res, next) => {
   try {
     const { title, content, categoryIds } = req.body;
+    await PostService.validateTitle(title);
+    await PostService.validateContent(content);
+    await PostService.validateCategoryIds(categoryIds);
+    next();
   } catch (error) {
     console.error(error);
     return res
@@ -15,8 +19,10 @@ exports.validatePost = async (req, res) => {
 
 exports.createNewPost = async (req, res) => {
   try {
+    const { authorization } = req.headers;
     const { title, content, categoryIds } = req.body;
     const blogPost = await PostService.createNewPost(
+      authorization,
       title,
       content,
       categoryIds,

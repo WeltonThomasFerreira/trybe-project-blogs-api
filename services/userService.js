@@ -55,9 +55,8 @@ const createDataUser = (response) => {
   try {
     const {
       dataValues: { email, password },
-      dataValues,
     } = response;
-    return { id: dataValues.null, email, password };
+    return { id: response.null, email, password };
   } catch (error) {
     console.error(error);
     throw new Error('Unable to map response from database');
