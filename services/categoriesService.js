@@ -22,7 +22,7 @@ exports.createNewCategory = async (name) => {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
     if (error.parent.errno === ER_DUP_ENTRY) {
-      throw CATEGORY_ALREADY_REGISTERED();
+      throw CATEGORY_ALREADY_REGISTERED;
     }
     throw error;
   }

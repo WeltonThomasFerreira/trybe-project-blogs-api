@@ -2,19 +2,13 @@ require('dotenv').config();
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 
-const TOKEN_NOT_FOUND = () => {
-  const error = new Error();
-  error.code = 401;
-  error.msg = 'Token not found';
-  return error;
-};
+const TOKEN_NOT_FOUND = new Error();
+TOKEN_NOT_FOUND.code = 401;
+TOKEN_NOT_FOUND.msg = 'Token not found';
 
-const INVALID_TOKEN = () => {
-  const error = new Error();
-  error.code = 401;
-  error.msg = 'Expired or invalid token';
-  return error;
-};
+const INVALID_TOKEN = new Error();
+INVALID_TOKEN.code = 401;
+INVALID_TOKEN.msg = 'Expired or invalid token';
 
 const Service = {
   validateAuthorization: async (authorization) => {
@@ -25,7 +19,7 @@ const Service = {
     } catch (error) {
       console.error(error);
       const invalidToken = /^(TokenExpiredError|JsonWebTokenError)$/;
-      if (invalidToken.test(error.name)) throw INVALID_TOKEN();
+      if (invalidToken.test(error.name)) throw INVALID_TOKEN;
       throw error;
     }
   },

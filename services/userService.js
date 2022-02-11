@@ -72,7 +72,7 @@ exports.createNewUser = async (displayName, email, password, image) => {
   } catch (error) {
     console.error(error);
     const ER_DUP_ENTRY = 1062;
-    if (error.parent.errno === ER_DUP_ENTRY) throw USER_ALREADY_REGISTERED();
+    if (error.parent.errno === ER_DUP_ENTRY) throw USER_ALREADY_REGISTERED;
     throw error;
   }
 };
@@ -89,7 +89,7 @@ exports.getAllUsers = async () => {
 exports.getUserById = async (id) => {
   try {
     const user = await User.findByPk(id);
-    if (!user) throw USER_DOES_NOT_EXIST();
+    if (!user) throw USER_DOES_NOT_EXIST;
     return user;
   } catch (error) {
     console.error(error);

@@ -32,7 +32,7 @@ exports.validateCategoryIds = async (categoryIds) => {
     const schema = Joi.array().required().error(CATEGORYID_IS_REQUIRED);
     await schema.validateAsync(categoryIds);
     categoryIds.forEach(async (id) => {
-      if (!(await Category.findByPk(id))) throw CATEGORYID_NOT_FOUND();
+      if (!(await Category.findByPk(id))) throw CATEGORYID_NOT_FOUND;
     });
   } catch (error) {
     console.error(error);
