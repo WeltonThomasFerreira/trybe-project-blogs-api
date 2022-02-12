@@ -4,6 +4,7 @@ const userRouter = require('./routes/userRouter');
 const loginRouter = require('./routes/loginRouter');
 const categoriesRouter = require('./routes/categoriesRouter');
 const postRouter = require('./routes/postRouter');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use('/user', userRouter);
 app.use('/login', loginRouter);
 app.use('/categories', categoriesRouter);
 app.use('/post', postRouter);
+app.use(errorHandler);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

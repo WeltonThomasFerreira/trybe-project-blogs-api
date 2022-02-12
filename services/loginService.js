@@ -11,38 +11,23 @@ const {
 } = require('./errors');
 
 exports.validateEmail = async (email) => {
-  try {
-    const schema = Joi.object({
-      isRequired: Joi.string().required().allow('').error(EMAIL_IS_REQUIRED),
-      isEmpty: Joi.string().empty().error(EMAIL_IS_EMPTY),
-    });
-    await schema.validateAsync({ isRequired: email, isEmpty: email });
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const schema = Joi.object({
+    isRequired: Joi.string().required().allow('').error(EMAIL_IS_REQUIRED),
+    isEmpty: Joi.string().empty().error(EMAIL_IS_EMPTY),
+  });
+  await schema.validateAsync({ isRequired: email, isEmpty: email });
 };
 
 exports.validatePassword = async (password) => {
-  try {
-    const schema = Joi.object({
-      isRequired: Joi.string().required().allow('').error(PASSWORD_IS_REQUIRED),
-      isEmpty: Joi.string().empty().error(PASSWORD_IS_EMPTY),
-    });
-    await schema.validateAsync({ isRequired: password, isEmpty: password });
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const schema = Joi.object({
+    isRequired: Joi.string().required().allow('').error(PASSWORD_IS_REQUIRED),
+    isEmpty: Joi.string().empty().error(PASSWORD_IS_EMPTY),
+  });
+  await schema.validateAsync({ isRequired: password, isEmpty: password });
 };
 
 exports.login = async (email, password) => {
-  try {
-    const user = await User.findOne({ where: { email, password } });
-    if (!user) throw INVALID_FIELDS;
-    return jwt.sign({ data: { email, password } }, process.env.JWT_SECRET);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const user = await User.findOne({ where: { email, password } });
+  if (!user) throw INVALID_FIELDS;
+  return jwt.sign({ data: { email, password } }, process.env.JWT_SECRET);
 };

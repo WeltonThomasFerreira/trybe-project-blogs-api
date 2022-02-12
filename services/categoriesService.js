@@ -3,13 +3,8 @@ const { Category } = require('../models');
 const { NAME_IS_REQUIRED, CATEGORY_ALREADY_REGISTERED } = require('./errors');
 
 exports.validateCategory = async (name) => {
-  try {
-    const schema = Joi.string().required().error(NAME_IS_REQUIRED);
-    await schema.validateAsync(name);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const schema = Joi.string().required().error(NAME_IS_REQUIRED);
+  await schema.validateAsync(name);
 };
 
 exports.createNewCategory = async (name) => {
@@ -19,7 +14,6 @@ exports.createNewCategory = async (name) => {
     category.id = response.null;
     return category;
   } catch (error) {
-    console.error(error);
     const ER_DUP_ENTRY = 1062;
     if (error.parent.errno === ER_DUP_ENTRY) {
       throw CATEGORY_ALREADY_REGISTERED;
@@ -28,11 +22,4 @@ exports.createNewCategory = async (name) => {
   }
 };
 
-exports.getAllCategories = async () => {
-  try {
-    return Category.findAll({ order: ['id'] });
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+exports.getAllCategories = async () => Category.findAll({ order: ['id'] });

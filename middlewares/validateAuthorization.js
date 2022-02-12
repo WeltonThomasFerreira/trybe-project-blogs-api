@@ -1,4 +1,5 @@
 require('dotenv').config();
+const rescue = require('express-rescue');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 
@@ -17,7 +18,6 @@ const Service = {
       await schema.validateAsync(authorization);
       jwt.verify(authorization, process.env.JWT_SECRET);
     } catch (error) {
-      console.error(error);
       const invalidToken = /^(TokenExpiredError|JsonWebTokenError)$/;
       if (invalidToken.test(error.name)) throw INVALID_TOKEN;
       throw error;
@@ -25,15 +25,8 @@ const Service = {
   },
 };
 
-exports.validateAuthorization = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    await Service.validateAuthorization(authorization);
-    next();
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(error.code || 500)
-      .json({ message: error.msg || 'Internal Server Error' });
-  }
-};
+exports.validateAuthorization = rescue(async (req, _res, next) => {
+  const { authorization } = req.headers;
+  await Service.validateAuthorization(authorization);
+  next();
+});
