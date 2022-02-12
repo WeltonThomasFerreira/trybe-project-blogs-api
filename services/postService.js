@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-const { Category, BlogPost, User /** PostsCategory* */ } = require('../models');
+const { Category, BlogPost, User, PostsCategory } = require('../models');
 const {
   TITLE_IS_REQUIRED,
   CONTENT_IS_REQUIRED,
@@ -19,12 +19,14 @@ exports.validateContent = async (content) => {
   await schema.validateAsync(content);
 };
 
+// Trabalhar aqui, problema com o for each
+// depois fazer um transaction em createNewPost com o sequelize vindo de models/index
 exports.validateCategoryIds = async (categoryIds) => {
   const schema = Joi.array().required().error(CATEGORYID_IS_REQUIRED);
   await schema.validateAsync(categoryIds);
-  categoryIds.forEach(async (id) => {
-    if (!(await Category.findByPk(id))) throw CATEGORYID_NOT_FOUND;
-  });
+  // categoryIds.forEach(async (id) => {
+  //   if (!(await Category.findByPk(id))) throw CATEGORYID_NOT_FOUND;
+  // });
 };
 
 const createDataPost = (response) => {
@@ -38,11 +40,7 @@ const createDataPost = (response) => {
   }
 };
 
-exports.createNewPost = async (
-  authorization,
-  title,
-  content /** categoryIds* */,
-) => {
+exports.createNewPost = async (authorization, title, content, categoryIds) => {
   const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
   const user = await User.findOne({ where: { email: decoded.data.email } });
   const response = await BlogPost.create({
@@ -51,8 +49,8 @@ exports.createNewPost = async (
     userId: user.dataValues.id,
   });
   const post = createDataPost(response);
-  // categoryIds.forEach(async (id) => {
-  //   await PostsCategory.create({ postId: post.id, categoryId: id });
-  // });
+  categoryIds.forEach(async (id) => {
+    await PostsCategory.create({ postId: post.id, categoryId: id });
+  });
   return post;
 };

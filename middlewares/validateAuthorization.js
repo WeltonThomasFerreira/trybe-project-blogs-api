@@ -25,7 +25,7 @@ const Service = {
   },
 };
 
-exports.validateAuthorization = rescue(async (req, _res, next) => {
+exports.validateAuthorization = rescue(async (req, res, next) => {
   const { authorization } = req.headers;
   await Service.validateAuthorization(authorization);
   next();
