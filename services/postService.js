@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-const { Category, BlogPost, User, PostsCategory } = require('../models');
+const { Category, BlogPost, User /** PostsCategory* */ } = require('../models');
 const {
   TITLE_IS_REQUIRED,
   CONTENT_IS_REQUIRED,
@@ -38,8 +38,11 @@ const createDataPost = (response) => {
   }
 };
 
-exports.createNewPost = async (authorization, title, content, categoryIds) => {
-  console.log(`Ids de categorias: ${categoryIds}`);
+exports.createNewPost = async (
+  authorization,
+  title,
+  content /** categoryIds* */,
+) => {
   const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
   const user = await User.findOne({ where: { email: decoded.data.email } });
   const response = await BlogPost.create({
@@ -48,8 +51,8 @@ exports.createNewPost = async (authorization, title, content, categoryIds) => {
     userId: user.dataValues.id,
   });
   const post = createDataPost(response);
-  categoryIds.forEach(async (id) => {
-    await PostsCategory.create({ postId: post.id, categoryId: id });
-  });
+  // categoryIds.forEach(async (id) => {
+  //   await PostsCategory.create({ postId: post.id, categoryId: id });
+  // });
   return post;
 };

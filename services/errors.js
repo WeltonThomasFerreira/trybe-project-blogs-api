@@ -56,11 +56,11 @@ CONTENT_IS_REQUIRED.msg = '"content" is required';
 
 const CATEGORYID_IS_REQUIRED = Error();
 CATEGORYID_IS_REQUIRED.code = 400;
-CATEGORYID_IS_REQUIRED.msg = '"categoryId" is required';
+CATEGORYID_IS_REQUIRED.msg = '"categoryIds" is required';
 
 const CATEGORYID_NOT_FOUND = Error();
 CATEGORYID_NOT_FOUND.code = 400;
-CATEGORYID_NOT_FOUND.msg = '"categoryId" not found';
+CATEGORYID_NOT_FOUND.msg = '"categoryIds" not found';
 
 module.exports = {
   DISPLAY_NAME_IS_INVALID,
