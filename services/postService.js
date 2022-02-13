@@ -1,7 +1,12 @@
 require('dotenv').config();
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-const { Category, BlogPost, User, PostsCategory } = require('../models');
+const {
+  Category,
+  BlogPost,
+  User,
+  PostsCategory,
+} = require('../models');
 const {
   TITLE_IS_REQUIRED,
   CONTENT_IS_REQUIRED,
@@ -19,14 +24,13 @@ exports.validateContent = async (content) => {
   await schema.validateAsync(content);
 };
 
-// Trabalhar aqui, problema com o for each
-// depois fazer um transaction em createNewPost com o sequelize vindo de models/index
 exports.validateCategoryIds = async (categoryIds) => {
   const schema = Joi.array().required().error(CATEGORYID_IS_REQUIRED);
   await schema.validateAsync(categoryIds);
-  // categoryIds.forEach(async (id) => {
-  //   if (!(await Category.findByPk(id))) throw CATEGORYID_NOT_FOUND;
-  // });
+  const response = await Category.findAll({ attributes: ['id'], raw: true });
+  const categories = response.map((category) => category.id);
+  const categoryNotFound = categoryIds.some((id) => !categories.includes(id));
+  if (categoryNotFound) throw CATEGORYID_NOT_FOUND;
 };
 
 const createDataPost = (response) => {
