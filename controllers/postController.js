@@ -20,3 +20,8 @@ exports.createNewPost = rescue(async (req, res) => {
   );
   return res.status(201).json(blogPost);
 });
+
+exports.getAllPosts = rescue(async (req, res) => {
+  const blogPosts = await PostService.getAllPosts();
+  return res.status(200).json(blogPosts);
+});

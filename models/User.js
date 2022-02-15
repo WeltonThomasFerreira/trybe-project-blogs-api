@@ -10,12 +10,5 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
   }, { timestamps: false });
 
-  // User.associate = (models) => {
-  //   User.belongsTo(models.BlogPost, {
-  //     foreignKey: 'userId',
-  //     as: 'posts',
-  //   });
-  // };
-
   return User;
 };
