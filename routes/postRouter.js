@@ -13,6 +13,6 @@ const router = express.Router();
 router
   .route('/')
   .post(validateAuthorization, validatePost, createNewPost)
-  .get(getAllPosts);
+  .get(validateAuthorization, getAllPosts);
 
 module.exports = router;

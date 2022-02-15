@@ -1,21 +1,23 @@
-module.exports = (sequelize, DataTypes) => {
-  const PostCategory = sequelize.define('PostsCategory', {
-    id: {
-      primaryKey: true, type: DataTypes.INTEGER,
-    } }, { timestamps: false });
+// Créditos: Não conseguiria entender a modelagem da relação n:n sem consultar o PR do Matheus-Luiz
+// src: https://github.com/tryber/sd-014-b-project-blogs-api/pull/62
 
-  PostCategory.associate = (models) => {
-    PostCategory.belongsToMany(models.BlogPost, {
-      as: 'postId',
-      through: models.PostsCategory,
-      foreignKey: 'id', 
-      otherKey: 'id',
-    }); PostCategory.belongsToMany(models.Category, {
-      as: 'categoryId',
-      through: models.PostsCategory,
-      foreignKey: 'id', 
-      otherKey: 'id',
+module.exports = (Sequelize, _DataTypes) => {
+  const PostsCategory = Sequelize.define('PostsCategory', {},
+    { timestamps: false });
+
+  PostsCategory.associate = (models) => {
+    models.Category.belongsToMany(models.BlogPost, {
+      as: 'blogPosts',
+      through: PostsCategory,
+      foreignKey: 'categoryId',
+      otherKey: 'postId',
+    });
+    models.BlogPost.belongsToMany(models.Category, {
+      as: 'categories',
+      through: PostsCategory,
+      foreignKey: 'postId',
+      otherKey: 'categoryId',
     });
   };
-  return PostCategory;
+    return PostsCategory;
 };

@@ -56,9 +56,10 @@ exports.createNewPost = async (authorization, title, content, categoryIds) => {
 
 exports.getAllPosts = async () => {
   const posts = await BlogPost.findAll({
-    include: { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
   });
-  // const result = response.map((post) => post.dataValues);
-  // console.log(posts);
   return posts;
 };
